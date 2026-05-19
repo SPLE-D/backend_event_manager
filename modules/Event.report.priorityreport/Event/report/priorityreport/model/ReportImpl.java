@@ -21,7 +21,6 @@ public class ReportImpl extends ReportDecorator {
 	public ReportImpl() {
         super();
 		Random r = new Random();
-		this. = Math.abs(r.nextInt());
         this.objectName = ReportImpl.class.getName();
     }
 
