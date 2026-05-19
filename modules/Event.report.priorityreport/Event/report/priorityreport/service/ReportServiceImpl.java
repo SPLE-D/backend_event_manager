@@ -47,7 +47,7 @@ public class ReportServiceImpl extends ReportServiceDecorator {
 
 	public Report createReport(Map<String, Object> requestBody, int id){
 		Report savedReport = Repository.getObject(id);
-		UUID recordReportReportId = ((ReportDecorator) savedReport).getReportId();
+		int recordReportReportId = ((ReportDecorator) savedReport).getReportId();
 		Report report = record.createReport(requestBody, recordReportReportId);
 		Report reportpriorityreport = ReportFactory.createReport("Event.report.priorityreport.ReportImpl", report, PriorityReport);
 		return reportpriorityreport;
