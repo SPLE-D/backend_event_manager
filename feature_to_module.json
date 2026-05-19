@@ -1,8 +1,21 @@
 {
-  "CheckIn": ["Event.checkin.core"],
-  "EventCreation": ["Event.eventcreation.core"],
-  "AttendeeManagement": ["Event.attendeemanagement.core"],
-  "Notification": ["Event.notification.core"],
-  "Report": ["Event.report.core"],
-  "Review": ["Event.review.core"]
+  "CheckIn": [
+    "Event.checkin.core"
+  ],
+  "EventCreation": [
+    "Event.eventcreation.core",
+    "Event.eventcreation.typeeventcreation"
+  ],
+  "AttendeeManagement": [
+    "Event.attendeemanagement.core"
+  ],
+  "Notification": [
+    "Event.notification.core"
+  ],
+  "Report": [
+    "Event.report.core"
+  ],
+  "Review": [
+    "Event.review.core"
+  ]
 }

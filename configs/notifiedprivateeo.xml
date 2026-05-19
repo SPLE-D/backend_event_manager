@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+	<feature automatic="selected" name="EventManager"/>
+	<feature automatic="selected" name="Report"/>
+	<feature name="PriorityReport"/>
+	<feature automatic="selected" name="Review"/>
+	<feature name="AnonymousReview"/>
+	<feature automatic="selected" name="CheckIn"/>
+	<feature manual="selected" name="ManualCheckIn"/>
+	<feature automatic="unselected" name="TicketCheckIn"/>
+	<feature automatic="unselected" name="TimeStampCheckIn"/>
+	<feature automatic="selected" name="EventCreation"/>
+	<feature manual="selected" name="TypeEventCreation"/>
+	<feature automatic="selected" name="AttendeeManagement"/>
+	<feature name="ClassAttendeeManagement"/>
+	<feature name="TicketingSystem"/>
+	<feature name="Payment"/>
+	<feature name="QRIS"/>
+	<feature name="BankTransfer"/>
+	<feature manual="selected" name="Notification"/>
+	<feature name="TargetedNotification"/>
+</configuration>

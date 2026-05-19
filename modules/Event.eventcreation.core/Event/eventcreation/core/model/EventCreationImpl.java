@@ -1,89 +1,92 @@
 package Event.eventcreation.core.model;
 
-import java.lang.*;
-import java.util.*;
-import id.ac.ui.cs.prices.winvmj.core.Route;
-import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
+import java.util.HashMap;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.ForeignKey;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 
 @Entity(name="eventcreation_impl")
 @Table(name="eventcreation_impl")
 public class EventCreationImpl extends EventCreationComponent {
 
-	public EventCreationImpl(int eventId, int startDate, int endDate, int capacity, String name, String location) {
-	    this.eventId = eventId;
-	    this.startDate = startDate;
-	    this.endDate = endDate;
-	    this.capacity = capacity;
-	    this.name = name;
-	    this.location = location;
-	}
+    public EventCreationImpl(
+        int eventId,
+        Date startDate,
+        Date endDate,
+        int capacity,
+        String name,
+        String location
+    ) {
+        this.eventId = eventId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.capacity = capacity;
+        this.name = name;
+        this.location = location;
+    }
 
-	public EventCreationImpl() { }
+    public EventCreationImpl() { }
 
-	public int getEventId() {
-		return this.eventId;
-	}
+    public int getEventId() {
+        return this.eventId;
+    }
 
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
-	}
-	public int getStartDate() {
-		return this.startDate;
-	}
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
 
-	public void setStartDate(int startDate) {
-		this.startDate = startDate;
-	}
-	public int getEndDate() {
-		return this.endDate;
-	}
+    public Date getStartDate() {
+        return this.startDate;
+    }
 
-	public void setEndDate(int endDate) {
-		this.endDate = endDate;
-	}
-	public int getCapacity() {
-		return this.capacity;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-	public String getName() {
-		return this.name;
-	}
+    public Date getEndDate() {
+        return this.endDate;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getLocation() {
-		return this.location;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public int getCapacity() {
+        return this.capacity;
+    }
 
-	
-	public HashMap<String, Object> toHashMap() {
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> eventcreationMap = new HashMap<String,Object>();
-		eventcreationMap.put("eventId",getEventId());
-		eventcreationMap.put("startDate",getStartDate());
-		eventcreationMap.put("endDate",getEndDate());
-		eventcreationMap.put("capacity",getCapacity());
-		eventcreationMap.put("name",getName());
-		eventcreationMap.put("location",getLocation());
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
+
+        eventcreationMap.put("eventId", getEventId());
+        eventcreationMap.put("startDate", getStartDate() != null ? formatter.format(getStartDate()) : null);
+        eventcreationMap.put("endDate", getEndDate() != null ? formatter.format(getEndDate()) : null);
+        eventcreationMap.put("capacity", getCapacity());
+        eventcreationMap.put("name", getName());
+        eventcreationMap.put("location", getLocation());
 
         return eventcreationMap;
     }
-
 }
