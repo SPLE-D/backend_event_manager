@@ -18,19 +18,32 @@ public class ReportServiceImpl extends ReportServiceDecorator {
         super(record);
     }
 
- 	public Report createReport(Map<String, Object> requestBody){
-		String eventIdStr = (String) requestBody.get("eventId");
-		int eventId = Integer.parseInt(eventIdStr);
-		String totalAttendeeStr = (String) requestBody.get("totalAttendee");
-		int totalAttendee = Integer.parseInt(totalAttendeeStr);
-		String totalRevenueStr = (String) requestBody.get("totalRevenue");
-		int totalRevenue = Integer.parseInt(totalRevenueStr);
-		String summary = (String) requestBody.get("summary");
-		Report reportpriorityreport = record.createReport(requestBody);
-		Report reportpriorityreportdeco = ReportFactory.createReport("Event.report.priorityreport.model.ReportImpl", reportpriorityreport, PriorityReport);
-		Repository.saveObject(reportpriorityreportdeco);
-		return reportpriorityreportdeco;
-	}
+    public Report createReport(Map<String, Object> requestBody){
+        String eventIdStr = (String) requestBody.get("eventId");
+        int eventId = Integer.parseInt(eventIdStr);
+
+        String totalAttendeeStr = (String) requestBody.get("totalAttendee");
+        int totalAttendee = Integer.parseInt(totalAttendeeStr);
+
+        String totalRevenueStr = (String) requestBody.get("totalRevenue");
+        int totalRevenue = Integer.parseInt(totalRevenueStr);
+
+        String summary = (String) requestBody.get("summary");
+
+        String priorityReportStr = (String) requestBody.get("PriorityReport");
+        PriorityReport priorityReport = PriorityReport.valueOf(priorityReportStr);
+
+        Report reportpriorityreport = record.createReport(requestBody);
+
+        Report reportpriorityreportdeco = ReportFactory.createReport(
+            "Event.report.priorityreport.model.ReportImpl",
+            reportpriorityreport,
+            priorityReport
+        );
+
+        Repository.saveObject(reportpriorityreportdeco);
+        return reportpriorityreportdeco;
+    }
 
 	public Report createReport(Map<String, Object> requestBody, int id){
 		Report savedReport = Repository.getObject(id);
