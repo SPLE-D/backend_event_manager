@@ -62,6 +62,7 @@ public class ReportServiceImpl extends ReportServiceDecorator {
 
     public HashMap<String, Object> updateReport(Map<String, Object> requestBody){
 		String idStr = (String) requestBody.get("reportId");
+		 int id = Integer.parseInt(idStr);
 		
 		Report reportpriorityreport = Repository.getObject(id);
 		reportpriorityreport = createReport(requestBody, id);
