@@ -20,11 +20,12 @@ import javax.persistence.OneToMany;
 public class ReportImpl extends ReportComponent {
 
 	public ReportImpl(int reportId, int eventId, int totalAttendee, int totalRevenue, String summary) {
-	    this.reportId = reportId;
-	    this.eventId = eventId;
-	    this.totalAttendee = totalAttendee;
-	    this.totalRevenue = totalRevenue;
-	    this.summary = summary;
+		Random r = new Random();
+		this.reportId = Math.abs(r.nextInt());
+		this.eventId = eventId;
+		this.totalAttendee = totalAttendee;
+		this.totalRevenue = totalRevenue;
+		this.summary = summary;
 	}
 
 	public ReportImpl() { }
