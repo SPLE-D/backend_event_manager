@@ -4,20 +4,21 @@ features
 	EventManager
 		mandatory
 			Report
+				optional
+					PriorityReport
 			Review
+				optional
+					AnonymousReview
 			CheckIn {abstract true}
-				alternative
-					ManualCheckIn
-					TicketCheckIn
+				optional
+					TimeStampCheckIn
 			EventCreation
+				optional
+					TypeEventCreation
 			AttendeeManagement
-		optional
-			TicketingSystem
-			Payment
-				or
-					QRIS
-					BankTransfer
+				optional
+					ClassAttendeeManagement
 			Notification
+				optional
+					TargetedNotification
 
-constraints
-	TicketCheckIn => TicketingSystem

@@ -2,15 +2,15 @@
 <configuration>
 	<feature automatic="selected" name="EventManager"/>
 	<feature automatic="selected" name="Report"/>
+	<feature name="PriorityReport"/>
 	<feature automatic="selected" name="Review"/>
+	<feature name="AnonymousReview"/>
 	<feature automatic="selected" name="CheckIn"/>
-	<feature manual="selected" name="ManualCheckIn"/>
-	<feature automatic="unselected" name="TicketCheckIn"/>
+	<feature name="TimeStampCheckIn"/>
 	<feature automatic="selected" name="EventCreation"/>
+	<feature name="TypeEventCreation"/>
 	<feature automatic="selected" name="AttendeeManagement"/>
-	<feature name="TicketingSystem"/>
-	<feature automatic="selected" name="Payment"/>
-	<feature manual="selected" name="QRIS"/>
-	<feature name="BankTransfer"/>
+	<feature name="ClassAttendeeManagement"/>
 	<feature name="Notification"/>
+	<feature name="TargetedNotification"/>
 </configuration>
