@@ -49,7 +49,14 @@ public class ReportServiceImpl extends ReportServiceDecorator {
 		Report savedReport = Repository.getObject(id);
 		int recordReportReportId = ((ReportDecorator) savedReport).getReportId();
 		Report report = record.createReport(requestBody, recordReportReportId);
-		Report reportpriorityreport = ReportFactory.createReport("Event.report.priorityreport.ReportImpl", report, PriorityReport);
+		String priorityReportStr = (String) requestBody.get("PriorityReport");
+		PriorityReport priorityReport = PriorityReport.valueOf(priorityReportStr);
+
+		Report reportpriorityreport = ReportFactory.createReport(
+		    "Event.report.priorityreport.model.ReportImpl",
+		    report,
+		    priorityReport
+		);
 		return reportpriorityreport;
 	}
 
