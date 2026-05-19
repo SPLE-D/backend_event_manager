@@ -29,8 +29,15 @@ public class ReportImpl extends ReportDecorator {
 		this.PriorityReport = PriorityReport;
 		this.objectName = ReportImpl.class.getName();
 	}
+	
+	public PriorityReport getPriorityReport() {
+	    return this.PriorityReport;
+	}
 
-
+	public void setPriorityReport(PriorityReport PriorityReport) {
+	    this.PriorityReport = PriorityReport;
+	}
+	
 
 	public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = record.toHashMap();
