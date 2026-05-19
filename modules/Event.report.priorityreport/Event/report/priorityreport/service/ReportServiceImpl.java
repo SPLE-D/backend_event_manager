@@ -11,6 +11,7 @@ import Event.report.core.service.ReportServiceComponent;
 import Event.report.core.model.Report;
 import Event.report.core.model.ReportDecorator;
 import Event.report.ReportFactory;
+import Event.report.priorityreport.model.PriorityReport;
 
 public class ReportServiceImpl extends ReportServiceDecorator {
     public ReportServiceImpl (ReportServiceComponent record) {
