@@ -26,7 +26,7 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 	    Random r = new Random();
 	    int checkInId = Math.abs(r.nextInt());
 
-	    boolean attended = (boolean) requestBody.get("attended");
+	    boolean attended = parseBooleanValue(requestBody.get("attended"));
 
 	    CheckIn checkin = CheckInFactory.createCheckIn(
 	        "Event.checkin.core.model.CheckInImpl",
@@ -39,28 +39,29 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 	}
 
 	public CheckIn createCheckIn(Map<String, Object> requestBody, int id){
-		int checkInId = id;
-		boolean attended = (boolean) requestBody.get("attended");
-		
-		//to do: fix association attributes
-		CheckIn checkin = CheckInFactory.createCheckIn("Event.checkin.core.model.CheckInImpl",checkInId, attended);
-		Repository.saveObject(checkin);
-		return checkin;
+	    int checkInId = id;
+	    boolean attended = parseBooleanValue(requestBody.get("attended"));
+
+	    CheckIn checkin = CheckInFactory.createCheckIn(
+	        "Event.checkin.core.model.CheckInImpl",
+	        checkInId,
+	        attended
+	    );
+
+	    Repository.saveObject(checkin);
+	    return checkin;
 	}
 
-    public HashMap<String, Object> updateCheckIn(Map<String, Object> requestBody){
-		String idStr = (String) requestBody.get("checkInId");
-		int id = Integer.parseInt(idStr);
-		CheckIn checkin = Repository.getObject(id);
-		
-		checkin.setAttended((boolean) requestBody.get("attended"));
-		
-		Repository.updateObject(checkin);
-		
-		//to do: fix association attributes
-		
-		return checkin.toHashMap();
-		
+	public HashMap<String, Object> updateCheckIn(Map<String, Object> requestBody){
+	    String idStr = (String) requestBody.get("checkInId");
+	    int id = Integer.parseInt(idStr);
+	    CheckIn checkin = Repository.getObject(id);
+
+	    checkin.setAttended(parseBooleanValue(requestBody.get("attended")));
+
+	    Repository.updateObject(checkin);
+
+	    return checkin.toHashMap();
 	}
 
     public HashMap<String, Object> getCheckIn(String idStr){
@@ -105,4 +106,17 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 		// TODO: implement this method
 		throw new UnsupportedOperationException();
 	}
+	
+	private boolean parseBooleanValue(Object value) {
+	    if (value instanceof Boolean) {
+	        return (Boolean) value;
+	    }
+
+	    if (value instanceof String) {
+	        return Boolean.parseBoolean((String) value);
+	    }
+
+	    throw new IllegalArgumentException("Invalid boolean value for attended: " + value);
+	}
+	
 }
