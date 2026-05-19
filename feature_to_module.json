@@ -4,5 +4,6 @@
   "AttendeeManagement": ["Event.attendeemanagement.core"],
   "Notification": ["Event.notification.core"],
   "Report": ["Event.report.core"],
-  "Review": ["Event.review.core"]
+  "Review": ["Event.review.core"],
+  "PriorityReport": ["Event.report.priorityreport"]
 }
