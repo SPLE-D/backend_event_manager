@@ -16,6 +16,10 @@ public abstract class CheckInServiceDecorator extends CheckInServiceComponent{
 		return record.createCheckIn(requestBody);
 	}
 	
+	public CheckIn createTimeStampCheckIn(Map<String, Object> requestBody){
+		return record.createTimeStampCheckIn(requestBody);
+	}
+	
 	public CheckIn createCheckIn(Map<String, Object> requestBody, int id){
 		return record.createCheckIn(requestBody, id);
 	}
@@ -24,12 +28,24 @@ public abstract class CheckInServiceDecorator extends CheckInServiceComponent{
 		return record.getCheckIn(idStr);
 	}
 
+	public HashMap<String, Object> getTimeStampCheckIn(String idStr){
+		return record.getTimeStampCheckIn(idStr);
+	}
+
 	public List<HashMap<String,Object>> getAllCheckIn(){
 		return record.getAllCheckIn();
 	}
 
+	public List<HashMap<String,Object>> getAllTimeStampCheckIn(){
+		return record.getAllTimeStampCheckIn();
+	}
+
     public HashMap<String, Object> updateCheckIn(Map<String, Object> requestBody){
 		return record.updateCheckIn(requestBody);
+	}
+
+    public HashMap<String, Object> updateTimeStampCheckIn(Map<String, Object> requestBody){
+		return record.updateTimeStampCheckIn(requestBody);
 	}
 
     public List<HashMap<String,Object>> transformListToHashMap(List<CheckIn> List){
@@ -38,6 +54,10 @@ public abstract class CheckInServiceDecorator extends CheckInServiceComponent{
 
     public List<HashMap<String,Object>> deleteCheckIn(Map<String, Object> requestBody){
 		return record.deleteCheckIn(requestBody);
+	}
+
+    public List<HashMap<String,Object>> deleteTimeStampCheckIn(Map<String, Object> requestBody){
+		return record.deleteTimeStampCheckIn(requestBody);
 	}
 
 	public HashMap<String, Object> getCheckInById(int id){

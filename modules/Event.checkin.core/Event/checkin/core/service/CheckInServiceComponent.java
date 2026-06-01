@@ -15,12 +15,17 @@ public abstract class CheckInServiceComponent implements CheckInService{
     }	
 
     public abstract CheckIn createCheckIn(Map<String, Object> requestBody);
+    public abstract CheckIn createTimeStampCheckIn(Map<String, Object> requestBody);
 	public abstract CheckIn createCheckIn(Map<String, Object> requestBody, int id);
 	public abstract HashMap<String, Object> updateCheckIn(Map<String, Object> requestBody);
+	public abstract HashMap<String, Object> updateTimeStampCheckIn(Map<String, Object> requestBody);
     public abstract HashMap<String, Object> getCheckIn(String idStr);
+    public abstract HashMap<String, Object> getTimeStampCheckIn(String idStr);
     public abstract List<HashMap<String,Object>> getAllCheckIn();
+    public abstract List<HashMap<String,Object>> getAllTimeStampCheckIn();
     public abstract List<HashMap<String,Object>> transformListToHashMap(List<CheckIn> List);
     public abstract List<HashMap<String,Object>> deleteCheckIn(Map<String, Object> requestBody);
+    public abstract List<HashMap<String,Object>> deleteTimeStampCheckIn(Map<String, Object> requestBody);
 	public abstract HashMap<String, Object> getCheckInById(int id);
 
 	public abstract boolean checkIn();

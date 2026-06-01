@@ -95,8 +95,12 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 	}
 
     public HashMap<String, Object> updateCheckIn(Map<String, Object> requestBody){
-		String idStr = (String) requestBody.get("checkInId");
-		int id = Integer.parseInt(idStr);
+		int id = 0;
+		if (requestBody.get("checkInId") instanceof Number) {
+		    id = ((Number) requestBody.get("checkInId")).intValue();
+		} else {
+		    id = Integer.parseInt(requestBody.get("checkInId").toString());
+		}
 		CheckIn checkin = Repository.getObject(id);
 		
 		boolean attended = false;
@@ -152,24 +156,144 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 	}
 
     public List<HashMap<String,Object>> getAllCheckIn(){
-		List<CheckIn> List = Repository.getAllObject("checkin_impl");
-		return transformListToHashMap(List);
+		List<CheckIn> list = Repository.getAllObject("checkin_impl");
+		List<CheckIn> filtered = new ArrayList<CheckIn>();
+		for (CheckIn c : list) {
+		    if (c.getTimestamp() == null || c.getTimestamp().trim().isEmpty()) {
+		        filtered.add(c);
+		    }
+		}
+		return transformListToHashMap(filtered);
 	}
 
     public List<HashMap<String,Object>> transformListToHashMap(List<CheckIn> List){
 		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
-        }
-
+		if (List != null) {
+			for(int i = 0; i < List.size(); i++) {
+				resultList.add(List.get(i).toHashMap());
+			}
+		}
         return resultList;
 	}
 
     public List<HashMap<String,Object>> deleteCheckIn(Map<String, Object> requestBody){
-		String idStr = ((String) requestBody.get("checkInId"));
-		int id = Integer.parseInt(idStr);
+		int id = 0;
+		if (requestBody.get("checkInId") instanceof Number) {
+		    id = ((Number) requestBody.get("checkInId")).intValue();
+		} else {
+		    id = Integer.parseInt(requestBody.get("checkInId").toString());
+		}
 		Repository.deleteObject(id);
 		return getAllCheckIn();
+	}
+
+	public CheckIn createTimeStampCheckIn(Map<String, Object> requestBody){
+	    Random r = new Random();
+	    int checkInId = Math.abs(r.nextInt());
+
+	    boolean attended = false;
+	    if (requestBody.get("attended") != null) {
+	        if (requestBody.get("attended") instanceof Boolean) {
+	            attended = (boolean) requestBody.get("attended");
+	        } else {
+	            attended = Boolean.parseBoolean(requestBody.get("attended").toString());
+	        }
+	    }
+
+	    Integer attendeeId = null;
+	    if (requestBody.get("attendeeId") != null) {
+	        try {
+	            if (requestBody.get("attendeeId") instanceof Number) {
+	                attendeeId = ((Number) requestBody.get("attendeeId")).intValue();
+	            } else {
+	                attendeeId = Integer.parseInt(requestBody.get("attendeeId").toString());
+	            }
+	        } catch (Exception e) {
+	            // Ignore
+	        }
+	    }
+
+	    String timestamp = requestBody.get("timestamp") != null ? requestBody.get("timestamp").toString() : null;
+
+	    CheckIn checkin = CheckInFactory.createCheckIn(
+	        "Event.checkin.core.model.CheckInImpl",
+	        checkInId,
+	        attended,
+	        attendeeId,
+	        timestamp
+	    );
+
+	    Repository.saveObject(checkin);
+	    return checkin;
+	}
+
+    public HashMap<String, Object> updateTimeStampCheckIn(Map<String, Object> requestBody){
+		int id = 0;
+		if (requestBody.get("checkInId") instanceof Number) {
+		    id = ((Number) requestBody.get("checkInId")).intValue();
+		} else {
+		    id = Integer.parseInt(requestBody.get("checkInId").toString());
+		}
+		CheckIn checkin = Repository.getObject(id);
+		
+		boolean attended = false;
+	    if (requestBody.get("attended") != null) {
+	        if (requestBody.get("attended") instanceof Boolean) {
+	            attended = (boolean) requestBody.get("attended");
+	        } else {
+	            attended = Boolean.parseBoolean(requestBody.get("attended").toString());
+	        }
+	    }
+		checkin.setAttended(attended);
+
+		Integer attendeeId = null;
+	    if (requestBody.get("attendeeId") != null) {
+	        try {
+	            if (requestBody.get("attendeeId") instanceof Number) {
+	                attendeeId = ((Number) requestBody.get("attendeeId")).intValue();
+	            } else {
+	                attendeeId = Integer.parseInt(requestBody.get("attendeeId").toString());
+	            }
+	        } catch (Exception e) {
+	            // Ignore
+	        }
+	    }
+	    checkin.setAttendeeId(attendeeId);
+
+	    String timestamp = requestBody.get("timestamp") != null ? requestBody.get("timestamp").toString() : null;
+	    checkin.setTimestamp(timestamp);
+		
+		Repository.updateObject(checkin);
+		
+		return checkin.toHashMap();
+	}
+
+    public HashMap<String, Object> getTimeStampCheckIn(String idStr){
+		int id = Integer.parseInt(idStr);
+		CheckIn checkin = Repository.getObject(id);
+		return checkin.toHashMap();
+	}
+
+    public List<HashMap<String,Object>> getAllTimeStampCheckIn(){
+		List<CheckIn> list = Repository.getAllObject("checkin_impl");
+		List<CheckIn> filtered = new ArrayList<CheckIn>();
+		for (CheckIn c : list) {
+		    if (c.getTimestamp() != null && !c.getTimestamp().trim().isEmpty()) {
+		        filtered.add(c);
+		    }
+		}
+		return transformListToHashMap(filtered);
+	}
+
+    public List<HashMap<String,Object>> deleteTimeStampCheckIn(Map<String, Object> requestBody){
+		int id = 0;
+		if (requestBody.get("checkInId") instanceof Number) {
+		    id = ((Number) requestBody.get("checkInId")).intValue();
+		} else {
+		    id = Integer.parseInt(requestBody.get("checkInId").toString());
+		}
+		Repository.deleteObject(id);
+		return getAllTimeStampCheckIn();
 	}
 
 	public boolean checkIn() {

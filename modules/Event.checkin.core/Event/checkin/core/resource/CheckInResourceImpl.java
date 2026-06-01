@@ -86,28 +86,50 @@ public class CheckInResourceImpl extends CheckInResourceComponent{
 		throw new UnsupportedOperationException();
 	}
 
+    public CheckIn createTimeStampCheckIn(VMJExchange vmjExchange){
+		if (vmjExchange.getHttpMethod().equals("POST")) {
+		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
+			CheckIn result = checkinServiceImpl.createTimeStampCheckIn(requestBody);
+			return result;
+		}
+		throw new NotFoundException("Route tidak ditemukan");
+	}
+
     @Route(url="call/timestampcheckin/save")
     public List<HashMap<String,Object>> saveTimeStampCheckIn(VMJExchange vmjExchange){
-        return saveCheckIn(vmjExchange);
-    }
+		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+			return null;
+		}
+		CheckIn checkin = createTimeStampCheckIn(vmjExchange);
+		return checkinServiceImpl.getAllTimeStampCheckIn();
+	}
 
     @Route(url="call/timestampcheckin/update")
     public HashMap<String, Object> updateTimeStampCheckIn(VMJExchange vmjExchange){
-        return updateCheckIn(vmjExchange);
-    }
+		Map<String, Object> requestBody = vmjExchange.getPayload(); 
+		if (vmjExchange.getHttpMethod().equals("OPTIONS")){
+			return null;
+		}
+		return checkinServiceImpl.updateTimeStampCheckIn(requestBody);
+	}
 
     @Route(url="call/timestampcheckin/detail")
     public HashMap<String, Object> getTimeStampCheckIn(VMJExchange vmjExchange){
-        return getCheckIn(vmjExchange);
-    }
+		String idStr = vmjExchange.getGETParam("checkInId");
+		return checkinServiceImpl.getTimeStampCheckIn(idStr);
+	}
 
     @Route(url="call/timestampcheckin/list")
     public List<HashMap<String,Object>> getAllTimeStampCheckIn(VMJExchange vmjExchange){
-        return getAllCheckIn(vmjExchange);
-    }
+		return checkinServiceImpl.getAllTimeStampCheckIn();
+	}
 
     @Route(url="call/timestampcheckin/delete")
     public List<HashMap<String,Object>> deleteTimeStampCheckIn(VMJExchange vmjExchange){
-        return deleteCheckIn(vmjExchange);
-    }
+		Map<String, Object> requestBody = vmjExchange.getPayload(); 
+		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+			return null;
+		}
+		return checkinServiceImpl.deleteTimeStampCheckIn(requestBody);
+	}
 }
