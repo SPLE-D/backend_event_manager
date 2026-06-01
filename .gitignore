@@ -1,0 +1,7 @@
+
+# Gradle local caches
+.gradle/
+**/.gradle/
+build/
+**/build/
+*.lock
