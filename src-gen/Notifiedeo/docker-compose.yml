@@ -1,4 +1,4 @@
-# WinVMJ Generated Docker Compose
+# WinVMJ Generated Docker Compose (Local Dev)
 # Product: Notifiedeo
 
 version: '3.8'
@@ -29,13 +29,13 @@ services:
       dockerfile: Dockerfile
     container_name: notifiedeo-backend
     environment:
-      # Internal ports are fixed (7776, 9464) - configured in Dockerfile
+      AMANAH_HOST_BE: ${AMANAH_HOST_BE:-0.0.0.0}
+      AMANAH_PORT_BE: ${AMANAH_PORT_BE:-7776}
       AMANAH_DB_URL: ${AMANAH_DB_URL:-jdbc:postgresql://postgres:5432/notifiedeo}
       AMANAH_DB_USERNAME: ${AMANAH_DB_USERNAME:-postgres}
       AMANAH_DB_PASSWORD: ${AMANAH_DB_PASSWORD:-postgres123}
     ports:
-      # HOST_PORT:CONTAINER_PORT (container port fixed at 7776)
-      - "${HOST_PORT_BE:-7776}:7776"
+      - "${HOST_PORT_BE:-7776}:${AMANAH_PORT_BE:-7776}"
     networks:
       - notifiedeo-network
     depends_on:
