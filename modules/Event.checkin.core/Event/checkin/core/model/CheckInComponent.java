@@ -18,6 +18,8 @@ public abstract class CheckInComponent implements CheckIn{
 	@Id
 	protected int checkInId; 
 	protected boolean attended;
+	protected Integer attendeeId;
+	protected String timestamp;
 	protected String objectName = CheckInComponent.class.getName();
 
 	public CheckInComponent() {
@@ -29,6 +31,15 @@ public abstract class CheckInComponent implements CheckIn{
     ) {
         this.checkInId = checkInId;
         this.attended = attended;
+    }
+
+	public CheckInComponent(
+        int checkInId, boolean attended, Integer attendeeId, String timestamp
+    ) {
+        this.checkInId = checkInId;
+        this.attended = attended;
+        this.attendeeId = attendeeId;
+        this.timestamp = timestamp;
     }
 
 	public int getCheckInId() {
@@ -44,6 +55,22 @@ public abstract class CheckInComponent implements CheckIn{
 
 	public void setAttended(boolean attended) {
 		this.attended = attended;
+	}
+
+	public Integer getAttendeeId() {
+		return this.attendeeId;
+	}
+
+	public void setAttendeeId(Integer attendeeId) {
+		this.attendeeId = attendeeId;
+	}
+
+	public String getTimestamp() {
+		return this.timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
  
 	public abstract boolean checkIn();

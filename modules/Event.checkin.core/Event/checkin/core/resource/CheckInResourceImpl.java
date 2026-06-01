@@ -85,4 +85,29 @@ public class CheckInResourceImpl extends CheckInResourceComponent{
 		// TODO: implement this method
 		throw new UnsupportedOperationException();
 	}
+
+    @Route(url="call/timestampcheckin/save")
+    public List<HashMap<String,Object>> saveTimeStampCheckIn(VMJExchange vmjExchange){
+        return saveCheckIn(vmjExchange);
+    }
+
+    @Route(url="call/timestampcheckin/update")
+    public HashMap<String, Object> updateTimeStampCheckIn(VMJExchange vmjExchange){
+        return updateCheckIn(vmjExchange);
+    }
+
+    @Route(url="call/timestampcheckin/detail")
+    public HashMap<String, Object> getTimeStampCheckIn(VMJExchange vmjExchange){
+        return getCheckIn(vmjExchange);
+    }
+
+    @Route(url="call/timestampcheckin/list")
+    public List<HashMap<String,Object>> getAllTimeStampCheckIn(VMJExchange vmjExchange){
+        return getAllCheckIn(vmjExchange);
+    }
+
+    @Route(url="call/timestampcheckin/delete")
+    public List<HashMap<String,Object>> deleteTimeStampCheckIn(VMJExchange vmjExchange){
+        return deleteCheckIn(vmjExchange);
+    }
 }

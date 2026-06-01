@@ -46,6 +46,18 @@ public abstract class CheckInDecorator extends CheckInComponent{
 	public void setAttended(boolean attended) {
 		record.setAttended(attended);
 	}
+	public Integer getAttendeeId() {
+		return record.getAttendeeId();
+	}
+	public void setAttendeeId(Integer attendeeId) {
+		record.setAttendeeId(attendeeId);
+	}
+	public String getTimestamp() {
+		return record.getTimestamp();
+	}
+	public void setTimestamp(String timestamp) {
+		record.setTimestamp(timestamp);
+	}
 
 	public boolean checkIn() {
 		return record.checkIn();

@@ -24,6 +24,13 @@ public class CheckInImpl extends CheckInComponent {
 	    this.attended = attended;
 	}
 
+	public CheckInImpl(int checkInId, boolean attended, Integer attendeeId, String timestamp) {
+	    this.checkInId = checkInId;
+	    this.attended = attended;
+	    this.attendeeId = attendeeId;
+	    this.timestamp = timestamp;
+	}
+
 	public CheckInImpl() { }
 
 	public int getCheckInId() {
@@ -50,6 +57,8 @@ public class CheckInImpl extends CheckInComponent {
         HashMap<String, Object> checkinMap = new HashMap<String,Object>();
 		checkinMap.put("checkInId",getCheckInId());
 		checkinMap.put("attended",getAttended());
+		checkinMap.put("attendeeId",getAttendeeId());
+		checkinMap.put("timestamp",getTimestamp());
 
         return checkinMap;
     }

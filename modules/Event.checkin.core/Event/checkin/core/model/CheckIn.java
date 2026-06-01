@@ -9,5 +9,9 @@ public interface CheckIn {
 	    public void setCheckInId(int checkInId);
 	    public boolean getAttended();
 	    public void setAttended(boolean attended);
+	    public Integer getAttendeeId();
+	    public void setAttendeeId(Integer attendeeId);
+	    public String getTimestamp();
+	    public void setTimestamp(String timestamp);
 	HashMap<String, Object> toHashMap();
 }

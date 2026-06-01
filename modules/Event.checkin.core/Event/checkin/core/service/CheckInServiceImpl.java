@@ -26,12 +26,36 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 	    Random r = new Random();
 	    int checkInId = Math.abs(r.nextInt());
 
-	    boolean attended = (boolean) requestBody.get("attended");
+	    boolean attended = false;
+	    if (requestBody.get("attended") != null) {
+	        if (requestBody.get("attended") instanceof Boolean) {
+	            attended = (boolean) requestBody.get("attended");
+	        } else {
+	            attended = Boolean.parseBoolean(requestBody.get("attended").toString());
+	        }
+	    }
+
+	    Integer attendeeId = null;
+	    if (requestBody.get("attendeeId") != null) {
+	        try {
+	            if (requestBody.get("attendeeId") instanceof Number) {
+	                attendeeId = ((Number) requestBody.get("attendeeId")).intValue();
+	            } else {
+	                attendeeId = Integer.parseInt(requestBody.get("attendeeId").toString());
+	            }
+	        } catch (Exception e) {
+	            // Ignore
+	        }
+	    }
+
+	    String timestamp = requestBody.get("timestamp") != null ? requestBody.get("timestamp").toString() : null;
 
 	    CheckIn checkin = CheckInFactory.createCheckIn(
 	        "Event.checkin.core.model.CheckInImpl",
 	        checkInId,
-	        attended
+	        attended,
+	        attendeeId,
+	        timestamp
 	    );
 
 	    Repository.saveObject(checkin);
@@ -40,10 +64,32 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 
 	public CheckIn createCheckIn(Map<String, Object> requestBody, int id){
 		int checkInId = id;
-		boolean attended = (boolean) requestBody.get("attended");
+		boolean attended = false;
+	    if (requestBody.get("attended") != null) {
+	        if (requestBody.get("attended") instanceof Boolean) {
+	            attended = (boolean) requestBody.get("attended");
+	        } else {
+	            attended = Boolean.parseBoolean(requestBody.get("attended").toString());
+	        }
+	    }
+		
+		Integer attendeeId = null;
+	    if (requestBody.get("attendeeId") != null) {
+	        try {
+	            if (requestBody.get("attendeeId") instanceof Number) {
+	                attendeeId = ((Number) requestBody.get("attendeeId")).intValue();
+	            } else {
+	                attendeeId = Integer.parseInt(requestBody.get("attendeeId").toString());
+	            }
+	        } catch (Exception e) {
+	            // Ignore
+	        }
+	    }
+
+	    String timestamp = requestBody.get("timestamp") != null ? requestBody.get("timestamp").toString() : null;
 		
 		//to do: fix association attributes
-		CheckIn checkin = CheckInFactory.createCheckIn("Event.checkin.core.model.CheckInImpl",checkInId, attended);
+		CheckIn checkin = CheckInFactory.createCheckIn("Event.checkin.core.model.CheckInImpl",checkInId, attended, attendeeId, timestamp);
 		Repository.saveObject(checkin);
 		return checkin;
 	}
@@ -53,7 +99,32 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 		int id = Integer.parseInt(idStr);
 		CheckIn checkin = Repository.getObject(id);
 		
-		checkin.setAttended((boolean) requestBody.get("attended"));
+		boolean attended = false;
+	    if (requestBody.get("attended") != null) {
+	        if (requestBody.get("attended") instanceof Boolean) {
+	            attended = (boolean) requestBody.get("attended");
+	        } else {
+	            attended = Boolean.parseBoolean(requestBody.get("attended").toString());
+	        }
+	    }
+		checkin.setAttended(attended);
+
+		Integer attendeeId = null;
+	    if (requestBody.get("attendeeId") != null) {
+	        try {
+	            if (requestBody.get("attendeeId") instanceof Number) {
+	                attendeeId = ((Number) requestBody.get("attendeeId")).intValue();
+	            } else {
+	                attendeeId = Integer.parseInt(requestBody.get("attendeeId").toString());
+	            }
+	        } catch (Exception e) {
+	            // Ignore
+	        }
+	    }
+	    checkin.setAttendeeId(attendeeId);
+
+	    String timestamp = requestBody.get("timestamp") != null ? requestBody.get("timestamp").toString() : null;
+	    checkin.setTimestamp(timestamp);
 		
 		Repository.updateObject(checkin);
 		
