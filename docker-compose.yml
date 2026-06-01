@@ -1,0 +1,51 @@
+# WinVMJ Generated Docker Compose
+# Product: Withclass
+
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: withclass-postgres
+    environment:
+      POSTGRES_DB: withclass
+      POSTGRES_USER: ${AMANAH_DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${AMANAH_DB_PASSWORD:-postgres123}
+    ports:
+      - "${HOST_PORT_POSTGRES:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - withclass-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: withclass-backend
+    environment:
+      # Internal ports are fixed (7776, 9464) - configured in Dockerfile
+      AMANAH_DB_URL: ${AMANAH_DB_URL:-jdbc:postgresql://postgres:5432/withclass}
+      AMANAH_DB_USERNAME: ${AMANAH_DB_USERNAME:-postgres}
+      AMANAH_DB_PASSWORD: ${AMANAH_DB_PASSWORD:-postgres123}
+    ports:
+      # HOST_PORT:CONTAINER_PORT (container port fixed at 7776)
+      - "${HOST_PORT_BE:-7776}:7776"
+    networks:
+      - withclass-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  withclass-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
