@@ -16,6 +16,7 @@ public class EventCreationResourceImpl extends EventCreationResourceComponent{
 	private EventCreationServiceImpl eventcreationServiceImpl = new EventCreationServiceImpl();
 
 	
+    @Restricted(permissionName="CreateEventCreation")
     @Route(url="call/eventcreation/save")
     public List<HashMap<String,Object>> saveEventCreation(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -44,6 +45,7 @@ public class EventCreationResourceImpl extends EventCreationResourceComponent{
 	}
 
 	
+    @Restricted(permissionName="UpdateEventCreation")
     @Route(url="call/eventcreation/update")
     public HashMap<String, Object> updateEventCreation(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
@@ -69,6 +71,7 @@ public class EventCreationResourceImpl extends EventCreationResourceComponent{
 	}
 
 	
+    @Restricted(permissionName="DeleteEventCreation")
     @Route(url="call/eventcreation/delete")
     public List<HashMap<String,Object>> deleteEventCreation(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
