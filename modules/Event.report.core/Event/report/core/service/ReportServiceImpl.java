@@ -17,7 +17,6 @@ import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.report.ReportFactory;
 import Event.report.core.model.Report;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 //add other required packages
 
 public class ReportServiceImpl extends ReportServiceComponent{

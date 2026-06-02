@@ -5,7 +5,6 @@ import id.ac.ui.cs.prices.winvmj.core.Route;
 import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.attendeemanagement.AttendeeManagementFactory;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 import Event.attendeemanagement.core.model.AttendeeManagement;
 import Event.attendeemanagement.core.service.AttendeeManagementServiceImpl;
 //add other required packages

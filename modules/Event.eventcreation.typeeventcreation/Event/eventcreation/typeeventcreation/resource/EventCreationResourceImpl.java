@@ -5,7 +5,6 @@ import java.util.*;
 import id.ac.ui.cs.prices.winvmj.core.Route;
 import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 
 import Event.eventcreation.core.resource.EventCreationResourceDecorator;
 import Event.eventcreation.core.resource.EventCreationResourceComponent;
@@ -21,7 +20,6 @@ public class EventCreationResourceImpl extends EventCreationResourceDecorator {
         this.eventcreationtypeeventcreationServiceImpl = new EventCreationServiceImpl(recordService);
     }
 
-    @Restricted(permissionName="CreateTypeEventCreation")
     @Route(url="call/typeeventcreation/save")
     public List<HashMap<String,Object>> saveEventCreation(VMJExchange vmjExchange){
         if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -50,7 +48,6 @@ public class EventCreationResourceImpl extends EventCreationResourceDecorator {
         throw new NotFoundException("Route tidak ditemukan");
     }
 
-    @Restricted(permissionName="UpdateTypeEventCreation")
     @Route(url="call/typeeventcreation/update")
     public HashMap<String, Object> updateEventCreation(VMJExchange vmjExchange){
         if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -90,7 +87,6 @@ public class EventCreationResourceImpl extends EventCreationResourceDecorator {
         return resultList;
     }
 
-    @Restricted(permissionName="DeleteTypeEventCreation")
     @Route(url="call/typeeventcreation/delete")
     public List<HashMap<String,Object>> deleteEventCreation(VMJExchange vmjExchange){
         if (vmjExchange.getHttpMethod().equals("OPTIONS")) {

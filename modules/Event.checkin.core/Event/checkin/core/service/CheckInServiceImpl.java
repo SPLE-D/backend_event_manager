@@ -17,7 +17,6 @@ import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.checkin.CheckInFactory;
 import Event.checkin.core.model.CheckIn;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 //add other required packages
 
 public class CheckInServiceImpl extends CheckInServiceComponent{
