@@ -5,7 +5,6 @@ import id.ac.ui.cs.prices.winvmj.core.Route;
 import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.checkin.CheckInFactory;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 import Event.checkin.core.model.CheckIn;
 import Event.checkin.core.service.CheckInServiceImpl;
 //add other required packages

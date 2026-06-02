@@ -17,9 +17,7 @@ import javax.persistence.Table;
 public abstract class CheckInComponent implements CheckIn{
 	@Id
 	protected int checkInId; 
-	protected int checkInId;
 	protected boolean attended;
-	protected int attendeeId;
 	protected String objectName = CheckInComponent.class.getName();
 
 	public CheckInComponent() {
@@ -27,11 +25,10 @@ public abstract class CheckInComponent implements CheckIn{
 	} 
 
 	public CheckInComponent(
-        int checkInId, boolean attended, int attendeeId
+        int checkInId, boolean attended
     ) {
         this.checkInId = checkInId;
         this.attended = attended;
-        this.attendeeId = attendeeId;
     }
 
 	public int getCheckInId() {
@@ -48,13 +45,6 @@ public abstract class CheckInComponent implements CheckIn{
 	public void setAttended(boolean attended) {
 		this.attended = attended;
 	}
-	public int getAttendeeId() {
-		return this.attendeeId;
-	}
-
-	public void setAttendeeId(int attendeeId) {
-		this.attendeeId = attendeeId;
-	}
  
 	public abstract boolean checkIn();
 
@@ -63,7 +53,6 @@ public abstract class CheckInComponent implements CheckIn{
         return "{" +
             " checkInId='" + getCheckInId() + "'" +
             " attended='" + getAttended() + "'" +
-            " attendeeId='" + getAttendeeId() + "'" +
             "}";
     }
 	

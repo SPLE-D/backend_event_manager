@@ -17,19 +17,24 @@ import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.notification.NotificationFactory;
 import Event.notification.core.model.Notification;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 //add other required packages
 
 public class NotificationServiceImpl extends NotificationServiceComponent{
 
-    public Notification createNotification(Map<String, Object> requestBody){
-		String content = (String) requestBody.get("content");
-		
-		//to do: fix association attributes
-		
-		Notification notification = NotificationFactory.createNotification("Event.notification.core.model.NotificationImpl", content);
-		Repository.saveObject(notification);
-		return notification;
+	public Notification createNotification(Map<String, Object> requestBody){
+	    Random r = new Random();
+	    int notifiationId = Math.abs(r.nextInt());
+
+	    String content = (String) requestBody.get("content");
+
+	    Notification notification = NotificationFactory.createNotification(
+	        "Event.notification.core.model.NotificationImpl",
+	        notifiationId,
+	        content
+	    );
+
+	    Repository.saveObject(notification);
+	    return notification;
 	}
 
 	public Notification createNotification(Map<String, Object> requestBody, int id){
@@ -66,7 +71,7 @@ public class NotificationServiceImpl extends NotificationServiceComponent{
 	public HashMap<String, Object> getNotificationById(int id){
 		List<HashMap<String, Object>> notificationList = getAllNotification();
 		for (HashMap<String, Object> notification : notificationList){
-			int record_id = ((Double) notification.get("notifiationId")).intValue();
+			int record_id = ((Number) notification.get("notifiationId")).intValue();
 			if (record_id == id){
 				return notification;
 			}

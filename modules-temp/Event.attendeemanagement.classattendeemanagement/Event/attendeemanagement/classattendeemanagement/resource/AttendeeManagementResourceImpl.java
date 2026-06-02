@@ -40,7 +40,7 @@ public class AttendeeManagementResourceImpl extends AttendeeManagementResourceDe
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-    public AttendeeManagement createAttendeeManagement(VMJExchange vmjExchange, UUID id){
+    public AttendeeManagement createAttendeeManagement(VMJExchange vmjExchange, int id){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			AttendeeManagement result = attendeemanagementclassattendeemanagementServiceImpl.createAttendeeManagement(requestBody, id);

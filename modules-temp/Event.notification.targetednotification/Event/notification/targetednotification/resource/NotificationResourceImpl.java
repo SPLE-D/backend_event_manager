@@ -40,7 +40,7 @@ public class NotificationResourceImpl extends NotificationResourceDecorator {
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-    public Notification createNotification(VMJExchange vmjExchange, UUID id){
+    public Notification createNotification(VMJExchange vmjExchange, int id){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			Notification result = notificationtargetednotificationServiceImpl.createNotification(requestBody, id);

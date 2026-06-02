@@ -17,10 +17,8 @@ import javax.persistence.Table;
 public abstract class AttendeeManagementComponent implements AttendeeManagement{
 	@Id
 	protected int attendeeId; 
-	protected int attendeeId;
 	protected String phoneNumber;
 	protected String email;
-	protected int eventId;
 	protected String objectName = AttendeeManagementComponent.class.getName();
 
 	public AttendeeManagementComponent() {
@@ -28,12 +26,11 @@ public abstract class AttendeeManagementComponent implements AttendeeManagement{
 	} 
 
 	public AttendeeManagementComponent(
-        int attendeeId, String phoneNumber, String email, int eventId
+        int attendeeId, String phoneNumber, String email
     ) {
         this.attendeeId = attendeeId;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.eventId = eventId;
     }
 
 	public int getAttendeeId() {
@@ -57,13 +54,6 @@ public abstract class AttendeeManagementComponent implements AttendeeManagement{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getEventId() {
-		return this.eventId;
-	}
-
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
-	}
  
 
 	@Override
@@ -72,7 +62,6 @@ public abstract class AttendeeManagementComponent implements AttendeeManagement{
             " attendeeId='" + getAttendeeId() + "'" +
             " phoneNumber='" + getPhoneNumber() + "'" +
             " email='" + getEmail() + "'" +
-            " eventId='" + getEventId() + "'" +
             "}";
     }
 	

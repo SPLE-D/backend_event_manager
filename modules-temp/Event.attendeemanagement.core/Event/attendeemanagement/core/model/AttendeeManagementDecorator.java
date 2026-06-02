@@ -52,12 +52,6 @@ public abstract class AttendeeManagementDecorator extends AttendeeManagementComp
 	public void setEmail(String email) {
 		record.setEmail(email);
 	}
-	public int getEventId() {
-		return record.getEventId();
-	}
-	public void setEventId(int eventId) {
-		record.setEventId(eventId);
-	}
 
 
 	public HashMap<String, Object> toHashMap() {

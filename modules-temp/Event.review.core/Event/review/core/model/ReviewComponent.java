@@ -17,7 +17,6 @@ import javax.persistence.Table;
 public abstract class ReviewComponent implements Review{
 	@Id
 	protected int reviewId; 
-	protected int reviewId;
 	protected int eventId;
 	protected int attendeeId;
 	protected int rating;

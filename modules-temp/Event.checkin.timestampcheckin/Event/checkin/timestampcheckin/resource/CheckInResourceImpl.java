@@ -40,7 +40,7 @@ public class CheckInResourceImpl extends CheckInResourceDecorator {
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-    public CheckIn createCheckIn(VMJExchange vmjExchange, UUID id){
+    public CheckIn createCheckIn(VMJExchange vmjExchange, int id){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			CheckIn result = checkintimestampcheckinServiceImpl.createCheckIn(requestBody, id);

@@ -10,33 +10,35 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 
 import Event.report.core.model.ReportDecorator;
-import Event.report.core.model.Report;
 import Event.report.core.model.ReportComponent;
 
 @Entity(name="report_priorityreport")
 @Table(name="report_priorityreport")
 public class ReportImpl extends ReportDecorator {
 
-	public PriorityReport PriorityReport;
+	protected String priorityReport;
 	public ReportImpl() {
         super();
-		Random r = new Random();
-		this. = Math.abs(r.nextInt());
         this.objectName = ReportImpl.class.getName();
     }
 
-	public ReportImpl(ReportComponent record, PriorityReport PriorityReport) {
+	public ReportImpl(ReportComponent record, String priorityReport) {
 		super(record, ReportImpl.class.getName());
-		this.PriorityReport = PriorityReport;
+		this.priorityReport = priorityReport;
 		this.objectName = ReportImpl.class.getName();
 	}
 
+	public String getPriorityReport() {
+		return this.priorityReport;
+	}
 
+	public void setPriorityReport(String priorityReport) {
+		this.priorityReport = priorityReport;
+	}
 
 	public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = record.toHashMap();
-        map.put("reportId", reportId);
-		map.put("PriorityReport", getPriorityReport());
+		map.put("priorityReport", getPriorityReport());
 
         return map;
     }

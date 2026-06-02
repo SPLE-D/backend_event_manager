@@ -5,7 +5,6 @@ import id.ac.ui.cs.prices.winvmj.core.Route;
 import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.notification.NotificationFactory;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 import Event.notification.core.model.Notification;
 import Event.notification.core.service.NotificationServiceImpl;
 //add other required packages

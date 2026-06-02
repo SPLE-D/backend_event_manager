@@ -40,7 +40,7 @@ public class ReportResourceImpl extends ReportResourceDecorator {
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-    public Report createReport(VMJExchange vmjExchange, UUID id){
+    public Report createReport(VMJExchange vmjExchange, int id){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			Report result = reportpriorityreportServiceImpl.createReport(requestBody, id);

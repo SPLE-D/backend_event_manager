@@ -17,7 +17,6 @@ import javax.persistence.Table;
 public abstract class NotificationComponent implements Notification{
 	@Id
 	protected int notifiationId; 
-	protected int notifiationId;
 	protected String content;
 	protected String objectName = NotificationComponent.class.getName();
 

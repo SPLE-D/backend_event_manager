@@ -1,97 +1,111 @@
 package Event.review.reviewanonymous.service;
 
 import java.util.*;
-import java.lang.*;
 
-import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
-
-import Event.review.core.service.ReviewServiceDecorator;
-import Event.review.core.model.ReviewImpl;
-import Event.review.core.service.ReviewServiceComponent;
-import Event.review.core.model.Review;
-import Event.review.core.model.ReviewDecorator;
 import Event.review.ReviewFactory;
+import Event.review.core.model.Review;
+import Event.review.core.model.ReviewComponent;
+import Event.review.core.service.ReviewServiceComponent;
+import Event.review.core.service.ReviewServiceDecorator;
+import Event.review.reviewanonymous.model.ReviewImpl;
 
 public class ReviewServiceImpl extends ReviewServiceDecorator {
-    public ReviewServiceImpl (ReviewServiceComponent record) {
+    public ReviewServiceImpl(ReviewServiceComponent record) {
         super(record);
     }
 
- 	public Review createReview(Map<String, Object> requestBody){
-		boolean anonymous = (boolean) requestBody.get("anonymous");
-		String eventIdStr = (String) requestBody.get("eventId");
-		int eventId = Integer.parseInt(eventIdStr);
-		String attendeeIdStr = (String) requestBody.get("attendeeId");
-		int attendeeId = Integer.parseInt(attendeeIdStr);
-		String ratingStr = (String) requestBody.get("rating");
-		int rating = Integer.parseInt(ratingStr);
-		String comment = (String) requestBody.get("comment");
-		Review reviewreviewanonymous = record.createReview(requestBody);
-		Review reviewreviewanonymousdeco = ReviewFactory.createReview("Event.review.reviewanonymous.model.ReviewImpl", reviewreviewanonymous, anonymous);
-		Repository.saveObject(reviewreviewanonymousdeco);
-		return reviewreviewanonymousdeco;
-	}
+    public Review createReview(Map<String, Object> requestBody) {
+        boolean anonymous = parseBooleanValue(requestBody.get("anonymous"));
+        Review baseReview = record.createReview(requestBody);
 
-	public Review createReview(Map<String, Object> requestBody, int id){
-		Review savedReview = Repository.getObject(id);
-		boolean anonymous = (boolean) requestBody.get("anonymous");
-		UUID recordReviewReviewId = ((ReviewDecorator) savedReview).getReviewId();
-		Review review = record.createReview(requestBody, recordReviewReviewId);
-		Review reviewreviewanonymous = ReviewFactory.createReview("Event.review.reviewanonymous.ReviewImpl", review, anonymous);
-		return reviewreviewanonymous;
-	}
+        Review decoratedReview = ReviewFactory.createReview(
+            "Event.review.reviewanonymous.model.ReviewImpl",
+            (ReviewComponent) baseReview,
+            anonymous
+        );
 
-    public HashMap<String, Object> updateReview(Map<String, Object> requestBody){
-		String idStr = (String) requestBody.get("reviewId");
-		
-		Review reviewreviewanonymous = Repository.getObject(id);
-		reviewreviewanonymous = createReview(requestBody, id);
-		
-		Repository.updateObject(reviewreviewanonymous);
-		reviewreviewanonymous = Repository.getObject(id);
-		
-		//to do: fix association attributes
-		
-		return reviewreviewanonymous.toHashMap();
-	}
+        Repository.saveObject(decoratedReview);
+        return decoratedReview;
+    }
 
-	public HashMap<String, Object> getReview(String idStr){
-		int id = Integer.parseInt(idStr);
-		Review reviewreviewanonymous = Repository.getObject(id);
-		return reviewreviewanonymous.toHashMap();
-	}
+    public Review createReview(Map<String, Object> requestBody, int id) {
+        boolean anonymous = parseBooleanValue(requestBody.get("anonymous"));
+        Review baseReview = record.createReview(requestBody, id);
 
-	public HashMap<String, Object> getReviewById(int id){
-		List<HashMap<String, Object>> reviewList = getAllReview();
-		for (HashMap<String, Object> review : reviewList){
-			int review_id = ((Double) review.get("reviewid")).intValue();
-			if (review_id == id){
-				return review;
-			}
-		}
-		return null;
-	}
+        Review decoratedReview = ReviewFactory.createReview(
+            "Event.review.reviewanonymous.model.ReviewImpl",
+            (ReviewComponent) baseReview,
+            anonymous
+        );
 
-    public List<HashMap<String,Object>> getAllReview(){
-		List<Review> List = Repository.getAllObject("review_reviewanonymous");
-		return transformListToHashMap(List);
-	}
+        Repository.saveObject(decoratedReview);
+        return decoratedReview;
+    }
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<Review> List){
-		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
+    public HashMap<String, Object> updateReview(Map<String, Object> requestBody) {
+        int id = Integer.parseInt((String) requestBody.get("reviewId"));
+        ReviewImpl review = getReviewAnonymousObjectById(id);
+
+        review.setEventId(Integer.parseInt((String) requestBody.get("eventId")));
+        review.setAttendeeId(Integer.parseInt((String) requestBody.get("attendeeId")));
+        review.setRating(Integer.parseInt((String) requestBody.get("rating")));
+        review.setComment((String) requestBody.get("comment"));
+        review.setAnonymous(parseBooleanValue(requestBody.get("anonymous")));
+
+        Repository.updateObject(review);
+        return review.toHashMap();
+    }
+
+    public HashMap<String, Object> getReview(String idStr) {
+        int id = Integer.parseInt(idStr);
+        return getReviewAnonymousObjectById(id).toHashMap();
+    }
+
+    public HashMap<String, Object> getReviewById(int id) {
+        for (HashMap<String, Object> review : getAllReview()) {
+            int recordId = ((Number) review.get("reviewId")).intValue();
+            if (recordId == id) {
+                return review;
+            }
         }
+        return null;
+    }
 
+    public List<HashMap<String, Object>> getAllReview() {
+        List<Review> list = Repository.getAllObject("review_reviewanonymous");
+        return transformListToHashMap(list);
+    }
+
+    public List<HashMap<String, Object>> transformListToHashMap(List<Review> list) {
+        List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
+        for (Review review : list) {
+            resultList.add(review.toHashMap());
+        }
         return resultList;
-	}
+    }
 
-    public List<HashMap<String,Object>> deleteReview(Map<String, Object> requestBody){
-		String idStr = ((String) requestBody.get("reviewId"));
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
-		return getAllReview();
-	}
+    public List<HashMap<String, Object>> deleteReview(Map<String, Object> requestBody) {
+        record.deleteReview(requestBody);
+        return getAllReview();
+    }
 
-	
+    private ReviewImpl getReviewAnonymousObjectById(int id) {
+        List<Review> list = Repository.getAllObject("review_reviewanonymous");
+        for (Review review : list) {
+            if (review.getReviewId() == id) {
+                return (ReviewImpl) review;
+            }
+        }
+        throw new IllegalArgumentException("ReviewAnonymous not found for reviewId: " + id);
+    }
+
+    private boolean parseBooleanValue(Object value) {
+        if (value instanceof Boolean) {
+            return (Boolean) value;
+        }
+        if (value instanceof String) {
+            return Boolean.parseBoolean((String) value);
+        }
+        throw new IllegalArgumentException("Invalid boolean value for anonymous: " + value);
+    }
 }

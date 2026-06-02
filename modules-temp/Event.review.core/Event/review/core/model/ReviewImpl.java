@@ -20,20 +20,11 @@ import javax.persistence.OneToMany;
 public class ReviewImpl extends ReviewComponent {
 
 	public ReviewImpl(int reviewId, int eventId, int attendeeId, int rating, String comment) {
-		this.reviewId = reviewId;
-		this.eventId = eventId;
-		this.attendeeId = attendeeId;
-		this.rating = rating;
-		this.comment = comment;
-	}
-
-	public ReviewImpl(int reviewId, int eventId, int attendeeId, int rating, String comment) {
-		Random r = new Random();
-		this.reviewId = Math.abs(r.nextInt());
-		this.eventId = eventId;
-		this.attendeeId = attendeeId;
-		this.rating = rating;
-		this.comment = comment;
+	    this.reviewId = reviewId;
+	    this.eventId = eventId;
+	    this.attendeeId = attendeeId;
+	    this.rating = rating;
+	    this.comment = comment;
 	}
 
 	public ReviewImpl() { }

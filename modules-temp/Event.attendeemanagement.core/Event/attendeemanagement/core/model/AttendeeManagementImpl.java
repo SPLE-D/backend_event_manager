@@ -19,19 +19,10 @@ import javax.persistence.OneToMany;
 @Table(name="attendeemanagement_impl")
 public class AttendeeManagementImpl extends AttendeeManagementComponent {
 
-	public AttendeeManagementImpl(int attendeeId, String phoneNumber, String email, int eventId) {
-		this.attendeeId = attendeeId;
-		this.phoneNumber = phoneNumber;
-		this.email = email;
-		this.eventId = eventId;
-	}
-
-	public AttendeeManagementImpl(int attendeeId, String phoneNumber, String email, int eventId) {
-		Random r = new Random();
-		this.attendeeId = Math.abs(r.nextInt());
-		this.phoneNumber = phoneNumber;
-		this.email = email;
-		this.eventId = eventId;
+	public AttendeeManagementImpl(int attendeeId, String phoneNumber, String email) {
+	    this.attendeeId = attendeeId;
+	    this.phoneNumber = phoneNumber;
+	    this.email = email;
 	}
 
 	public AttendeeManagementImpl() { }
@@ -57,13 +48,6 @@ public class AttendeeManagementImpl extends AttendeeManagementComponent {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getEventId() {
-		return this.eventId;
-	}
-
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
-	}
 
 	
 	public HashMap<String, Object> toHashMap() {
@@ -71,7 +55,6 @@ public class AttendeeManagementImpl extends AttendeeManagementComponent {
 		attendeemanagementMap.put("attendeeId",getAttendeeId());
 		attendeemanagementMap.put("phoneNumber",getPhoneNumber());
 		attendeemanagementMap.put("email",getEmail());
-		attendeemanagementMap.put("eventId",getEventId());
 
         return attendeemanagementMap;
     }

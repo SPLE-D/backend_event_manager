@@ -17,51 +17,50 @@ import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.checkin.CheckInFactory;
 import Event.checkin.core.model.CheckIn;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 //add other required packages
 
 public class CheckInServiceImpl extends CheckInServiceComponent{
 
-    public CheckIn createCheckIn(Map<String, Object> requestBody){
-		boolean attended = (boolean) requestBody.get("attended");
-		String attendeeIdStr = (String) requestBody.get("attendeeId");
-		int attendeeId = Integer.parseInt(attendeeIdStr);
-		
-		//to do: fix association attributes
-		
-		CheckIn checkin = CheckInFactory.createCheckIn("Event.checkin.core.model.CheckInImpl", attended, attendeeId);
-		Repository.saveObject(checkin);
-		return checkin;
+	public CheckIn createCheckIn(Map<String, Object> requestBody){
+	    Random r = new Random();
+	    int checkInId = Math.abs(r.nextInt());
+
+	    boolean attended = parseBooleanValue(requestBody.get("attended"));
+
+	    CheckIn checkin = CheckInFactory.createCheckIn(
+	        "Event.checkin.core.model.CheckInImpl",
+	        checkInId,
+	        attended
+	    );
+
+	    Repository.saveObject(checkin);
+	    return checkin;
 	}
 
 	public CheckIn createCheckIn(Map<String, Object> requestBody, int id){
-		int checkInId = id;
-		boolean attended = (boolean) requestBody.get("attended");
-		String attendeeIdStr = (String) requestBody.get("attendeeId");
-		int attendeeId = Integer.parseInt(attendeeIdStr);
-		
-		//to do: fix association attributes
-		CheckIn checkin = CheckInFactory.createCheckIn("Event.checkin.core.model.CheckInImpl",checkInId, attended, attendeeId);
-		Repository.saveObject(checkin);
-		return checkin;
+	    int checkInId = id;
+	    boolean attended = parseBooleanValue(requestBody.get("attended"));
+
+	    CheckIn checkin = CheckInFactory.createCheckIn(
+	        "Event.checkin.core.model.CheckInImpl",
+	        checkInId,
+	        attended
+	    );
+
+	    Repository.saveObject(checkin);
+	    return checkin;
 	}
 
-    public HashMap<String, Object> updateCheckIn(Map<String, Object> requestBody){
-		String idStr = (String) requestBody.get("checkInId");
-		int id = Integer.parseInt(idStr);
-		CheckIn checkin = Repository.getObject(id);
-		
-		checkin.setAttended((String) requestBody.get("attended"));
-		String attendeeIdStr = (String) requestBody.get("attendeeId");
-		checkin.setAttendeeId(Integer.parseInt(attendeeIdStr));
-		
-		
-		Repository.updateObject(checkin);
-		
-		//to do: fix association attributes
-		
-		return checkin.toHashMap();
-		
+	public HashMap<String, Object> updateCheckIn(Map<String, Object> requestBody){
+	    String idStr = (String) requestBody.get("checkInId");
+	    int id = Integer.parseInt(idStr);
+	    CheckIn checkin = Repository.getObject(id);
+
+	    checkin.setAttended(parseBooleanValue(requestBody.get("attended")));
+
+	    Repository.updateObject(checkin);
+
+	    return checkin.toHashMap();
 	}
 
     public HashMap<String, Object> getCheckIn(String idStr){
@@ -73,7 +72,7 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 	public HashMap<String, Object> getCheckInById(int id){
 		List<HashMap<String, Object>> checkinList = getAllCheckIn();
 		for (HashMap<String, Object> checkin : checkinList){
-			int record_id = ((Double) checkin.get("checkInId")).intValue();
+			int record_id = ((Number) checkin.get("checkInId")).intValue();
 			if (record_id == id){
 				return checkin;
 			}
@@ -106,4 +105,17 @@ public class CheckInServiceImpl extends CheckInServiceComponent{
 		// TODO: implement this method
 		throw new UnsupportedOperationException();
 	}
+	
+	private boolean parseBooleanValue(Object value) {
+	    if (value instanceof Boolean) {
+	        return (Boolean) value;
+	    }
+
+	    if (value instanceof String) {
+	        return Boolean.parseBoolean((String) value);
+	    }
+
+	    throw new IllegalArgumentException("Invalid boolean value for attended: " + value);
+	}
+	
 }

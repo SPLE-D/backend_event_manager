@@ -17,25 +17,36 @@ import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.report.ReportFactory;
 import Event.report.core.model.Report;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 //add other required packages
 
 public class ReportServiceImpl extends ReportServiceComponent{
 
-    public Report createReport(Map<String, Object> requestBody){
-		String eventIdStr = (String) requestBody.get("eventId");
-		int eventId = Integer.parseInt(eventIdStr);
-		String totalAttendeeStr = (String) requestBody.get("totalAttendee");
-		int totalAttendee = Integer.parseInt(totalAttendeeStr);
-		String totalRevenueStr = (String) requestBody.get("totalRevenue");
-		int totalRevenue = Integer.parseInt(totalRevenueStr);
-		String summary = (String) requestBody.get("summary");
-		
-		//to do: fix association attributes
-		
-		Report report = ReportFactory.createReport("Event.report.core.model.ReportImpl", eventId, totalAttendee, totalRevenue, summary);
-		Repository.saveObject(report);
-		return report;
+	public Report createReport(Map<String, Object> requestBody){
+	    Random r = new Random();
+	    int reportId = Math.abs(r.nextInt());
+
+	    String eventIdStr = (String) requestBody.get("eventId");
+	    int eventId = Integer.parseInt(eventIdStr);
+
+	    String totalAttendeeStr = (String) requestBody.get("totalAttendee");
+	    int totalAttendee = Integer.parseInt(totalAttendeeStr);
+
+	    String totalRevenueStr = (String) requestBody.get("totalRevenue");
+	    int totalRevenue = Integer.parseInt(totalRevenueStr);
+
+	    String summary = (String) requestBody.get("summary");
+
+	    Report report = ReportFactory.createReport(
+	        "Event.report.core.model.ReportImpl",
+	        reportId,
+	        eventId,
+	        totalAttendee,
+	        totalRevenue,
+	        summary
+	    );
+
+	    Repository.saveObject(report);
+	    return report;
 	}
 
 	public Report createReport(Map<String, Object> requestBody, int id){
@@ -87,7 +98,7 @@ public class ReportServiceImpl extends ReportServiceComponent{
 	public HashMap<String, Object> getReportById(int id){
 		List<HashMap<String, Object>> reportList = getAllReport();
 		for (HashMap<String, Object> report : reportList){
-			int record_id = ((Double) report.get("reportId")).intValue();
+			int record_id = ((Number) report.get("reportId")).intValue();
 			if (record_id == id){
 				return report;
 			}

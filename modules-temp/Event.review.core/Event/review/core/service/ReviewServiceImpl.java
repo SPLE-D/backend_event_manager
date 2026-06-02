@@ -17,25 +17,36 @@ import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.review.ReviewFactory;
 import Event.review.core.model.Review;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 //add other required packages
 
 public class ReviewServiceImpl extends ReviewServiceComponent{
 
-    public Review createReview(Map<String, Object> requestBody){
-		String eventIdStr = (String) requestBody.get("eventId");
-		int eventId = Integer.parseInt(eventIdStr);
-		String attendeeIdStr = (String) requestBody.get("attendeeId");
-		int attendeeId = Integer.parseInt(attendeeIdStr);
-		String ratingStr = (String) requestBody.get("rating");
-		int rating = Integer.parseInt(ratingStr);
-		String comment = (String) requestBody.get("comment");
-		
-		//to do: fix association attributes
-		
-		Review review = ReviewFactory.createReview("Event.review.core.model.ReviewImpl", eventId, attendeeId, rating, comment);
-		Repository.saveObject(review);
-		return review;
+	public Review createReview(Map<String, Object> requestBody){
+	    Random r = new Random();
+	    int reviewId = Math.abs(r.nextInt());
+
+	    String eventIdStr = (String) requestBody.get("eventId");
+	    int eventId = Integer.parseInt(eventIdStr);
+
+	    String attendeeIdStr = (String) requestBody.get("attendeeId");
+	    int attendeeId = Integer.parseInt(attendeeIdStr);
+
+	    String ratingStr = (String) requestBody.get("rating");
+	    int rating = Integer.parseInt(ratingStr);
+
+	    String comment = (String) requestBody.get("comment");
+
+	    Review review = ReviewFactory.createReview(
+	        "Event.review.core.model.ReviewImpl",
+	        reviewId,
+	        eventId,
+	        attendeeId,
+	        rating,
+	        comment
+	    );
+
+	    Repository.saveObject(review);
+	    return review;
 	}
 
 	public Review createReview(Map<String, Object> requestBody, int id){
@@ -87,7 +98,7 @@ public class ReviewServiceImpl extends ReviewServiceComponent{
 	public HashMap<String, Object> getReviewById(int id){
 		List<HashMap<String, Object>> reviewList = getAllReview();
 		for (HashMap<String, Object> review : reviewList){
-			int record_id = ((Double) review.get("reviewId")).intValue();
+			int record_id = ((Number) review.get("reviewId")).intValue();
 			if (record_id == id){
 				return review;
 			}

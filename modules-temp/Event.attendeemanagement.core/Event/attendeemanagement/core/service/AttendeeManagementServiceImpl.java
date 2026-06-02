@@ -17,33 +17,35 @@ import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 import id.ac.ui.cs.prices.winvmj.core.exceptions.*;
 import Event.attendeemanagement.AttendeeManagementFactory;
 import Event.attendeemanagement.core.model.AttendeeManagement;
-import id.ac.ui.cs.prices.winvmj.auth.annotations.Restricted;
 //add other required packages
 
 public class AttendeeManagementServiceImpl extends AttendeeManagementServiceComponent{
 
-    public AttendeeManagement createAttendeeManagement(Map<String, Object> requestBody){
-		String phoneNumber = (String) requestBody.get("phoneNumber");
-		String email = (String) requestBody.get("email");
-		String eventIdStr = (String) requestBody.get("eventId");
-		int eventId = Integer.parseInt(eventIdStr);
-		
-		//to do: fix association attributes
-		
-		AttendeeManagement attendeemanagement = AttendeeManagementFactory.createAttendeeManagement("Event.attendeemanagement.core.model.AttendeeManagementImpl", phoneNumber, email, eventId);
-		Repository.saveObject(attendeemanagement);
-		return attendeemanagement;
+	public AttendeeManagement createAttendeeManagement(Map<String, Object> requestBody){
+	    Random r = new Random();
+	    int attendeeId = Math.abs(r.nextInt());
+
+	    String phoneNumber = (String) requestBody.get("phoneNumber");
+	    String email = (String) requestBody.get("email");
+
+	    AttendeeManagement attendeemanagement = AttendeeManagementFactory.createAttendeeManagement(
+	        "Event.attendeemanagement.core.model.AttendeeManagementImpl",
+	        attendeeId,
+	        phoneNumber,
+	        email
+	    );
+
+	    Repository.saveObject(attendeemanagement);
+	    return attendeemanagement;
 	}
 
 	public AttendeeManagement createAttendeeManagement(Map<String, Object> requestBody, int id){
 		int attendeeId = id;
 		String phoneNumber = (String) requestBody.get("phoneNumber");
 		String email = (String) requestBody.get("email");
-		String eventIdStr = (String) requestBody.get("eventId");
-		int eventId = Integer.parseInt(eventIdStr);
 		
 		//to do: fix association attributes
-		AttendeeManagement attendeemanagement = AttendeeManagementFactory.createAttendeeManagement("Event.attendeemanagement.core.model.AttendeeManagementImpl",attendeeId, phoneNumber, email, eventId);
+		AttendeeManagement attendeemanagement = AttendeeManagementFactory.createAttendeeManagement("Event.attendeemanagement.core.model.AttendeeManagementImpl",attendeeId, phoneNumber, email);
 		Repository.saveObject(attendeemanagement);
 		return attendeemanagement;
 	}
@@ -55,9 +57,6 @@ public class AttendeeManagementServiceImpl extends AttendeeManagementServiceComp
 		
 		attendeemanagement.setPhoneNumber((String) requestBody.get("phoneNumber"));
 		attendeemanagement.setEmail((String) requestBody.get("email"));
-		String eventIdStr = (String) requestBody.get("eventId");
-		attendeemanagement.setEventId(Integer.parseInt(eventIdStr));
-		
 		
 		Repository.updateObject(attendeemanagement);
 		
@@ -76,7 +75,7 @@ public class AttendeeManagementServiceImpl extends AttendeeManagementServiceComp
 	public HashMap<String, Object> getAttendeeManagementById(int id){
 		List<HashMap<String, Object>> attendeemanagementList = getAllAttendeeManagement();
 		for (HashMap<String, Object> attendeemanagement : attendeemanagementList){
-			int record_id = ((Double) attendeemanagement.get("attendeeId")).intValue();
+			int record_id = ((Number) attendeemanagement.get("attendeeId")).intValue();
 			if (record_id == id){
 				return attendeemanagement;
 			}

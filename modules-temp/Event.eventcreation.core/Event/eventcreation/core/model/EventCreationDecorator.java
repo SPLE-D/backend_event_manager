@@ -2,6 +2,7 @@ package Event.eventcreation.core.model;
 
 import java.util.*;
 import java.lang.*;
+import java.util.Date;
 import id.ac.ui.cs.prices.winvmj.core.Route;
 import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 
@@ -40,16 +41,16 @@ public abstract class EventCreationDecorator extends EventCreationComponent{
 	public void setEventId(int eventId) {
 		record.setEventId(eventId);
 	}
-	public EDate getStartDate() {
+	public Date getStartDate() {
 		return record.getStartDate();
 	}
-	public void setStartDate(EDate startDate) {
+	public void setStartDate(Date startDate) {
 		record.setStartDate(startDate);
 	}
-	public EDate getEndDate() {
+	public Date getEndDate() {
 		return record.getEndDate();
 	}
-	public void setEndDate(EDate endDate) {
+	public void setEndDate(Date endDate) {
 		record.setEndDate(endDate);
 	}
 	public int getCapacity() {

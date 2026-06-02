@@ -17,7 +17,6 @@ import javax.persistence.Table;
 public abstract class ReportComponent implements Report{
 	@Id
 	protected int reportId; 
-	protected int reportId;
 	protected int eventId;
 	protected int totalAttendee;
 	protected int totalRevenue;

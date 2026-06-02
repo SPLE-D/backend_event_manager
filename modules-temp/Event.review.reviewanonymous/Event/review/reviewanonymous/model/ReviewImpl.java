@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 
 import Event.review.core.model.ReviewDecorator;
-import Event.review.core.model.Review;
 import Event.review.core.model.ReviewComponent;
 
 @Entity(name="review_reviewanonymous")
@@ -20,8 +19,6 @@ public class ReviewImpl extends ReviewDecorator {
 	protected boolean anonymous;
 	public ReviewImpl() {
         super();
-		Random r = new Random();
-		this. = Math.abs(r.nextInt());
         this.objectName = ReviewImpl.class.getName();
     }
 
@@ -42,7 +39,6 @@ public class ReviewImpl extends ReviewDecorator {
 
 	public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = record.toHashMap();
-        map.put("reviewId", reviewId);
 		map.put("anonymous", getAnonymous());
 
         return map;

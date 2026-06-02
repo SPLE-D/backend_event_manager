@@ -2,6 +2,7 @@ package Event.eventcreation.core.model;
 
 import java.util.*;
 import java.lang.*;
+import java.util.Date;
 import id.ac.ui.cs.prices.winvmj.core.Route;
 import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
 
@@ -17,9 +18,8 @@ import javax.persistence.Table;
 public abstract class EventCreationComponent implements EventCreation{
 	@Id
 	protected int eventId; 
-	protected int eventId;
-	protected EDate startDate;
-	protected EDate endDate;
+	protected Date startDate;
+	protected Date endDate;
 	protected int capacity;
 	protected String name;
 	protected String location;
@@ -30,7 +30,7 @@ public abstract class EventCreationComponent implements EventCreation{
 	} 
 
 	public EventCreationComponent(
-        int eventId, EDate startDate, EDate endDate, int capacity, String name, String location
+        int eventId, Date startDate, Date endDate, int capacity, String name, String location
     ) {
         this.eventId = eventId;
         this.startDate = startDate;
@@ -47,18 +47,18 @@ public abstract class EventCreationComponent implements EventCreation{
 	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
-	public EDate getStartDate() {
+	public Date getStartDate() {
 		return this.startDate;
 	}
 
-	public void setStartDate(EDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public EDate getEndDate() {
+	public Date getEndDate() {
 		return this.endDate;
 	}
 
-	public void setEndDate(EDate endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 	public int getCapacity() {

@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 
 import Event.attendeemanagement.core.model.AttendeeManagementDecorator;
-import Event.attendeemanagement.core.model.AttendeeManagement;
 import Event.attendeemanagement.core.model.AttendeeManagementComponent;
 
 @Entity(name="attendeemanagement_classattendeemanagement")
@@ -20,8 +19,6 @@ public class AttendeeManagementImpl extends AttendeeManagementDecorator {
 	protected String attendeeClass;
 	public AttendeeManagementImpl() {
         super();
-		Random r = new Random();
-		this. = Math.abs(r.nextInt());
         this.objectName = AttendeeManagementImpl.class.getName();
     }
 
@@ -42,7 +39,6 @@ public class AttendeeManagementImpl extends AttendeeManagementDecorator {
 
 	public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = record.toHashMap();
-        map.put("attendeeId", attendeeId);
 		map.put("attendeeClass", getAttendeeClass());
 
         return map;

@@ -1,94 +1,99 @@
 package Event.attendeemanagement.classattendeemanagement.service;
 
 import java.util.*;
-import java.lang.*;
 
-import id.ac.ui.cs.prices.winvmj.core.VMJExchange;
-
-import Event.attendeemanagement.core.service.AttendeeManagementServiceDecorator;
-import Event.attendeemanagement.core.model.AttendeeManagementImpl;
-import Event.attendeemanagement.core.service.AttendeeManagementServiceComponent;
-import Event.attendeemanagement.core.model.AttendeeManagement;
-import Event.attendeemanagement.core.model.AttendeeManagementDecorator;
 import Event.attendeemanagement.AttendeeManagementFactory;
+import Event.attendeemanagement.classattendeemanagement.model.AttendeeManagementImpl;
+import Event.attendeemanagement.core.model.AttendeeManagement;
+import Event.attendeemanagement.core.model.AttendeeManagementComponent;
+import Event.attendeemanagement.core.service.AttendeeManagementServiceComponent;
+import Event.attendeemanagement.core.service.AttendeeManagementServiceDecorator;
 
 public class AttendeeManagementServiceImpl extends AttendeeManagementServiceDecorator {
-    public AttendeeManagementServiceImpl (AttendeeManagementServiceComponent record) {
+    public AttendeeManagementServiceImpl(AttendeeManagementServiceComponent record) {
         super(record);
     }
 
- 	public AttendeeManagement createAttendeeManagement(Map<String, Object> requestBody){
-		String attendeeClass = (String) requestBody.get("attendeeClass");
-		String phoneNumber = (String) requestBody.get("phoneNumber");
-		String email = (String) requestBody.get("email");
-		String eventIdStr = (String) requestBody.get("eventId");
-		int eventId = Integer.parseInt(eventIdStr);
-		AttendeeManagement attendeemanagementclassattendeemanagement = record.createAttendeeManagement(requestBody);
-		AttendeeManagement attendeemanagementclassattendeemanagementdeco = AttendeeManagementFactory.createAttendeeManagement("Event.attendeemanagement.classattendeemanagement.model.AttendeeManagementImpl", attendeemanagementclassattendeemanagement, attendeeClass);
-		Repository.saveObject(attendeemanagementclassattendeemanagementdeco);
-		return attendeemanagementclassattendeemanagementdeco;
-	}
+    public AttendeeManagement createAttendeeManagement(Map<String, Object> requestBody) {
+        String attendeeClass = (String) requestBody.get("attendeeClass");
+        AttendeeManagement baseAttendeeManagement = record.createAttendeeManagement(requestBody);
 
-	public AttendeeManagement createAttendeeManagement(Map<String, Object> requestBody, int id){
-		AttendeeManagement savedAttendeeManagement = Repository.getObject(id);
-		String attendeeClass = (String) requestBody.get("attendeeClass");
-		UUID recordAttendeeManagementAttendeeId = ((AttendeeManagementDecorator) savedAttendeeManagement).getAttendeeId();
-		AttendeeManagement attendeemanagement = record.createAttendeeManagement(requestBody, recordAttendeeManagementAttendeeId);
-		AttendeeManagement attendeemanagementclassattendeemanagement = AttendeeManagementFactory.createAttendeeManagement("Event.attendeemanagement.classattendeemanagement.AttendeeManagementImpl", attendeemanagement, attendeeClass);
-		return attendeemanagementclassattendeemanagement;
-	}
+        AttendeeManagement decoratedAttendeeManagement = AttendeeManagementFactory.createAttendeeManagement(
+            "Event.attendeemanagement.classattendeemanagement.model.AttendeeManagementImpl",
+            (AttendeeManagementComponent) baseAttendeeManagement,
+            attendeeClass
+        );
 
-    public HashMap<String, Object> updateAttendeeManagement(Map<String, Object> requestBody){
-		String idStr = (String) requestBody.get("attendeeId");
-		
-		AttendeeManagement attendeemanagementclassattendeemanagement = Repository.getObject(id);
-		attendeemanagementclassattendeemanagement = createAttendeeManagement(requestBody, id);
-		
-		Repository.updateObject(attendeemanagementclassattendeemanagement);
-		attendeemanagementclassattendeemanagement = Repository.getObject(id);
-		
-		//to do: fix association attributes
-		
-		return attendeemanagementclassattendeemanagement.toHashMap();
-	}
+        Repository.saveObject(decoratedAttendeeManagement);
+        return decoratedAttendeeManagement;
+    }
 
-	public HashMap<String, Object> getAttendeeManagement(String idStr){
-		int id = Integer.parseInt(idStr);
-		AttendeeManagement attendeemanagementclassattendeemanagement = Repository.getObject(id);
-		return attendeemanagementclassattendeemanagement.toHashMap();
-	}
+    public AttendeeManagement createAttendeeManagement(Map<String, Object> requestBody, int id) {
+        String attendeeClass = (String) requestBody.get("attendeeClass");
+        AttendeeManagement baseAttendeeManagement = record.createAttendeeManagement(requestBody, id);
 
-	public HashMap<String, Object> getAttendeeManagementById(int id){
-		List<HashMap<String, Object>> attendeemanagementList = getAllAttendeeManagement();
-		for (HashMap<String, Object> attendeemanagement : attendeemanagementList){
-			int attendeemanagement_id = ((Double) attendeemanagement.get("attendeeid")).intValue();
-			if (attendeemanagement_id == id){
-				return attendeemanagement;
-			}
-		}
-		return null;
-	}
+        AttendeeManagement decoratedAttendeeManagement = AttendeeManagementFactory.createAttendeeManagement(
+            "Event.attendeemanagement.classattendeemanagement.model.AttendeeManagementImpl",
+            (AttendeeManagementComponent) baseAttendeeManagement,
+            attendeeClass
+        );
 
-    public List<HashMap<String,Object>> getAllAttendeeManagement(){
-		List<AttendeeManagement> List = Repository.getAllObject("attendeemanagement_classattendeemanagement");
-		return transformListToHashMap(List);
-	}
+        Repository.saveObject(decoratedAttendeeManagement);
+        return decoratedAttendeeManagement;
+    }
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<AttendeeManagement> List){
-		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
+    public HashMap<String, Object> updateAttendeeManagement(Map<String, Object> requestBody) {
+        int id = Integer.parseInt((String) requestBody.get("attendeeId"));
+        AttendeeManagementImpl attendeeManagement = getClassAttendeeManagementObjectById(id);
+
+        attendeeManagement.setPhoneNumber((String) requestBody.get("phoneNumber"));
+        attendeeManagement.setEmail((String) requestBody.get("email"));
+        attendeeManagement.setAttendeeClass((String) requestBody.get("attendeeClass"));
+
+        Repository.updateObject(attendeeManagement);
+        return attendeeManagement.toHashMap();
+    }
+
+    public HashMap<String, Object> getAttendeeManagement(String idStr) {
+        int id = Integer.parseInt(idStr);
+        return getClassAttendeeManagementObjectById(id).toHashMap();
+    }
+
+    public HashMap<String, Object> getAttendeeManagementById(int id) {
+        for (HashMap<String, Object> attendeeManagement : getAllAttendeeManagement()) {
+            int recordId = ((Number) attendeeManagement.get("attendeeId")).intValue();
+            if (recordId == id) {
+                return attendeeManagement;
+            }
         }
+        return null;
+    }
 
+    public List<HashMap<String, Object>> getAllAttendeeManagement() {
+        List<AttendeeManagement> list = Repository.getAllObject("attendeemanagement_classattendeemanagement");
+        return transformListToHashMap(list);
+    }
+
+    public List<HashMap<String, Object>> transformListToHashMap(List<AttendeeManagement> list) {
+        List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
+        for (AttendeeManagement attendeeManagement : list) {
+            resultList.add(attendeeManagement.toHashMap());
+        }
         return resultList;
-	}
+    }
 
-    public List<HashMap<String,Object>> deleteAttendeeManagement(Map<String, Object> requestBody){
-		String idStr = ((String) requestBody.get("attendeeId"));
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
-		return getAllAttendeeManagement();
-	}
+    public List<HashMap<String, Object>> deleteAttendeeManagement(Map<String, Object> requestBody) {
+        record.deleteAttendeeManagement(requestBody);
+        return getAllAttendeeManagement();
+    }
 
-	
+    private AttendeeManagementImpl getClassAttendeeManagementObjectById(int id) {
+        List<AttendeeManagement> list = Repository.getAllObject("attendeemanagement_classattendeemanagement");
+        for (AttendeeManagement attendeeManagement : list) {
+            if (attendeeManagement.getAttendeeId() == id) {
+                return (AttendeeManagementImpl) attendeeManagement;
+            }
+        }
+        throw new IllegalArgumentException("ClassAttendeeManagement not found for attendeeId: " + id);
+    }
 }

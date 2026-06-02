@@ -40,7 +40,7 @@ public class ReviewResourceImpl extends ReviewResourceDecorator {
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-    public Review createReview(VMJExchange vmjExchange, UUID id){
+    public Review createReview(VMJExchange vmjExchange, int id){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			Review result = reviewreviewanonymousServiceImpl.createReview(requestBody, id);
